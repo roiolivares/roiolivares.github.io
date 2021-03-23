@@ -1,0 +1,98 @@
+<div class="container">
+  <div class="input-group mb-3">
+    <input type="text" class="form-control" placeholder="Search protagonists" aria-label="Search" aria-describedby="button-addon2" [(ngModel)]="protagonistFilter">
+    <button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="searchBooksByProtagonist()">Button</button>
+  </div>
+</div>
+
+<div class="container">
+  <table class="table table-dark table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Imatge</th>
+        <th scope="col">Nom</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Cada book és un <tr> -->
+      <tr *ngFor="let book of books; let i=index">
+        <td><img src="book.image" width="140px" class="img-thumbnail" alt="Imatge llibre {{ book.name }}"></td>
+        <td>{{ book.name }}</td>
+        <td>
+          <button type="button" class="btn btn-primary" (click)="seeDetails(i)" data-toggle="modal" data-target="#bookDetailsModal">Look details</button>
+          <button type="button" class="btn btn-danger" (click)="deleteBook(i)">Delete</button>
+          <button type="button" class="btn btn-success" (click)="updateBook(i)">Update</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <button type="button" class="btn btn-primary" (click)="clearBook()" data-toggle="modal" data-target="#addBookModal">Afegir llibre</button>
+
+</div>
+<!-- Modal de Details de Books-->
+<div class="modal fade" id="bookDetailsModal" tabindex="-1" aria-labelledby="bookDetailsModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="bookDetailsModalLabel">{{ bookDetails.name }}</h5>
+        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">X</button>
+      </div>
+      <div class="modal-body">
+        <img [src]="bookDetails.image" alt="Imatge llibre {{ bookDetails.name }}" class="imatgeModal">
+        <h3>{{ bookDetails.type }}</h3>
+        <ul class="list-group">
+          <li class="list-group-item" *ngFor="let protagonist of bookDetails.protagonists">{{ protagonist }}</li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de afegir Details de Books-->
+<div class="modal fade" id="addBookModal" tabindex="-1" aria-labelledby="addBookModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addBookModalLabel">Afegir nou llibre</h5>
+        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">X</button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="bookNameInput" class="form-label">Name</label>
+          <input type="text" class="form-control" id="bookNameInput" placeholder="La bella y la bestia" [(ngModel)]="bookDetails.name">
+        </div>    
+        <div class="mb-3">
+          <label for="bookImageInput" class="form-label">Image</label>
+          <input type="text" class="form-control" id="bookImageInput" placeholder="http://..." [(ngModel)]="bookDetails.image">
+        </div>  
+      </div>
+      <select class="form-select" aria-label="Default select example" [(ngModel)]="bookDetails.type">
+        <option selected>Open to select the book type</option>
+        <option value="Love">Love</option>
+        <option value="Adventures">Adventures</option>
+        <option value="Drama">Drama</option>
+      </select>
+      <div class="mb-3">
+        <label for="bookProtagonist1Input" class="form-label">First Protagonist</label>
+        <input type="text" class="form-control" id="bookProtagonist1Input" placeholder="Romeo" [(ngModel)]="protagonist1">
+      </div>  
+      <div class="mb-3">
+        <label for="bookProtagonist2Input" class="form-label">Second Protagonist</label>
+        <input type="text" class="form-control" id="bookProtagonist2Input" placeholder="Julieta" [(ngModel)]="protagonist2">
+      </div>  
+      <div class="mb-3">
+        <label for="bookProtagonist3Input" class="form-label">Third Protagonist</label>
+        <input type="text" class="form-control" id="bookProtagonist3Input" placeholder="Manolo" [(ngModel)]="protagonist3">
+      </div>  
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="saveBook();">Save</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div> 
+</div>
