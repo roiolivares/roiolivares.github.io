@@ -9,6 +9,10 @@
 
 # dependencies
 /node_modules
+/scully
+
+#scully config
+scully.GitHubPagesProject.config.ts
 
 # profiling files
 chrome-profiler-events*.json
