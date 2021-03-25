@@ -1,0 +1,84 @@
+<div class="container">
+    <table class="table table-dark table-hover">
+      <thead>
+        <tr>
+          <th scope="col">MATERIA</th>
+          <th scope="col">UNITAT FORMATIVA</th>
+          <th scope="col"></th>
+          <th scope="col"></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Cada materia és un <tr> -->
+        <tr *ngFor="let materia of materies; let i=index">
+          <td>{{ materia.nomMateria }}</td>
+          <td>{{ materia.unitatFormativa }}</td>
+          <td>
+            <button type="button" class="btn btn-primary" (click)="seeDetails(i)" data-toggle="modal" data-target="#materiaDetailsModal">Veure Detalls</button></td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <button type="button" class="btn btn-primary" (click)="clearMateria()" data-toggle="modal" data-target="#addMateriaModal">Afegir llibre</button>
+  
+  </div>
+  <!-- Modal de Details de Materies-->
+  <div class="modal fade" id="materiaDetailsModal" tabindex="-1" aria-labelledby="materiaDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title" id="materiaDetailsModalLabel">Materia: {{ materiaDetails.nomMateria }}</h3>
+          <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">X</button>
+        </div>
+        <div class="modal-body">
+          <h4>Unitat Formativa: {{ materiaDetails.unitatFormativa }}</h4>
+          <h5>Pràctiques de la UF:</h5> 
+          <ul class="list-group">
+            <li class="list-group-item" *ngFor="let practica of materiaDetails.practica">{{ practica }}</li>
+          </ul>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal de afegir Details de Materies-->
+  <div class="modal fade" id="addMateriaModal" tabindex="-1" aria-labelledby="addMateriaModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addMateriaModalLabel">Afegir nou llibre</h5>
+          <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">X</button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="materiaNameInput" class="form-label">Nom</label>
+            <input type="text" class="form-control" id="materiaNameInput" placeholder="M14 - Desenvolupament Web" [(ngModel)]="materiaDetails.nomMateria">
+          </div>    
+          <div class="mb-3">
+            <label for="materiaImageInput" class="form-label">Unitat Formativa</label>
+            <input type="text" class="form-control" id="materiaImageInput" placeholder="UF1" [(ngModel)]="materiaDetails.unitatFormativa">
+          </div>  
+        </div>
+        <div class="mb-3">
+          <label for="materiaPractica1Input" class="form-label">Primera Practica</label>
+          <input type="text" class="form-control" id="materiaPractica1Input" placeholder="Pràctica 1 - Formulari" [(ngModel)]="practica1">
+        </div>  
+        <div class="mb-3">
+          <label for="materiaPractica2Input" class="form-label">Segona Practica</label>
+          <input type="text" class="form-control" id="materiaPractica2Input" placeholder="Pràctica 2 - Taules" [(ngModel)]="practica2">
+        </div>  
+        <div class="mb-3">
+          <label for="materiaPractica3Input" class="form-label">Tercera Practica</label>
+          <input type="text" class="form-control" id="materiaPractica3Input" placeholder="Pràctica 3 - Canvas" [(ngModel)]="practica3">
+        </div>  
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="saveMateria();">Save</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div> 
+  </div>

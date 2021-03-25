@@ -1,0 +1,16 @@
+<div>
+    <h1>Inici de sessió</h1>
+</div>
+
+<div>
+    <button type="button" class="btn btn-secondary" *ngIf="!allowedUserError" (click)="login()">Iniciar sessió amb Google</button>
+    <button type="button" class="btn btn-secondary" *ngIf="allowedUserError" (click)="login()">Canviar usuari amb Google</button>
+</div>
+
+<div *ngIf="!allowedUserError">
+    <h5>Aquest usuari no té permisos d'accés a la pàgina web</h5>
+</div>
+
+<div *ngIf="loginError">
+    <h5>Error en l'inici de sessió</h5>
+</div>

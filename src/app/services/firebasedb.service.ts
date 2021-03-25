@@ -2,47 +2,53 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { ProtractorExpectedConditions } from 'protractor';
 import { Observable } from 'rxjs';
-import { Book } from '../models/book';
+import { Materia } from '../models/materia';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FirebasedbService {
+  [x: string]: any;
 
   constructor(private firestore: AngularFirestore) { }
 
-  // Ens retorna un observable de Books
-  getBooks(): Observable<Book[]> {
-    // Ens fa un retrieve dels valors de la base de dades
-    return this.firestore.collection<Book>("books").valueChanges({idField: 'id'});
+  chechAllowedUser(email: string): Observable<any[]> {
+    return this.firestore.collection("allowed_users", ref => this.queryByEmail(email, ref)).valueChanges();
   }
 
-  addBook(book: Book) {
-    this.firestore.collection("books").add({
-      name: book.name,
-      image: book.image,
-      type: book.type,
-      protagonists: book.protagonists
+  private queryByEmail(email: string, ref: any) {
+    return ref.where("email", "==", email);
+  }
+
+  // Ens retorna un observable de Materies
+  getMateries(): Observable<Materia[]> {
+    // Ens fa un retrieve dels valors de la base de dades
+    return this.firestore.collection<Materia>("materies").valueChanges({idField: 'id'});
+  }
+
+  addMateria(materia: Materia) {
+    this.firestore.collection("materies").add({
+      nomMateria: materia.nomMateria,
+      unitatFormativa: materia.unitatFormativa,
+      practica: materia.practica
     })
   }
 
-  deleteBook(id: string) {
-    this.firestore.collection<Book>("Books").doc(id).delete();
+  deleteMateria(id: string) {
+    this.firestore.collection<Materia>("materies").doc(id).delete();
   }
 
-  updateBook(id: string, book: Book) {
-    this.firestore.collection<Book>("Books").doc(id).update(book);
+  searchMateriesByPractica(practica: string):Observable<Materia[]> {
+    return this.firestore.collection<Materia>("materies", ref => this.queryByPractica(practica, ref)).valueChanges();
   }
 
-  searchBooksByProtagonist(protagonist: string):Observable<Book[]> {
-    return this.firestore.collection<Book>("books", ref => this.queryByProtagonist(protagonist, ref)).valueChanges();
-  }
-
-  private queryByProtagonist(protagonist: string, ref: any) {
-    return ref.where("protagonists", "array-contains", [protagonist]);
+  private queryByPractica(practica: string, ref: any) {
+    return ref.where("practiques", "array-contains", [practica]);
   }
 }
-function protagonist(protagonist: string, ref: any) {
-  return ref.where("protagonists", "array-contains-any", [protagonist])
+function practica(practica: string, ref: any) {
+  return ref.where("practiques", "array-contains-any", [practica])
 }
+
+
 
